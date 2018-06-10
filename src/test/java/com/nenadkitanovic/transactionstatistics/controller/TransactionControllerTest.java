@@ -66,8 +66,7 @@ public class TransactionControllerTest extends AbstractControllerTest{
         mvc.perform(post("/transactions").content(asJsonString(requestDTO))
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.fieldErrors[0].fieldName").value("timestamp"))
-                .andExpect(jsonPath("$.fieldErrors[1].fieldName").value("amount"));
+                .andExpect(jsonPath("$.fieldErrors[*].fieldName").isArray());
 
         verify(transactionService, times(0)).createTransaction(any(TransactionRequestDTO.class));
     }
